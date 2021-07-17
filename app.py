@@ -23,8 +23,10 @@ db.init_app(app)
 
 @app.before_first_request
 def create_tables():
-    db.create_all()
-
+    try:
+        db.create_all()
+    except Exception as e:
+        print(e)
 api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
 api.add_resource(Store, '/store/<string:name>')

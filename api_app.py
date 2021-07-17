@@ -35,7 +35,7 @@ with app.app_context():
 
 @app.route('/')
 def home():
-    return "Hello World!"
+    return "Hello API!"
     
 api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')

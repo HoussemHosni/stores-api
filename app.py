@@ -11,7 +11,7 @@ from security import authenticate, identity
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.data'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///db.data')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = "secret_key"
 app.config['JWT_AUTH_URL_RULE'] = '/login'

@@ -1,4 +1,5 @@
 from datetime import timedelta
+from db import db
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
@@ -17,6 +18,12 @@ app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds=1800)
 api = Api(app)
 
 jwt = JWT(app, authenticate, identity)
+
+db.init_app(app)
+
+@app.before_first_request
+def create_tables():
+    db.create_all()
 
 api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')

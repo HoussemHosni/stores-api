@@ -11,20 +11,23 @@ from security import authenticate, identity
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///db.data')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = "secret_key"
 app.config['JWT_AUTH_URL_RULE'] = '/login'
 app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds=1800)
 
-db.init_app(app)
+
 api = Api(app)
 
 jwt = JWT(app, authenticate, identity)
 
-@app.before_first_request
-def create_tables():
+db.init_app(app)
+
+with app.app_context():
     db.create_all()
+
 
 @app.route('/')
 def home():
@@ -35,6 +38,7 @@ api.add_resource(ItemList, '/items')
 api.add_resource(Store, '/store/<string:name>')
 api.add_resource(StoreList, '/stores')
 api.add_resource(UserRegister, '/signup')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

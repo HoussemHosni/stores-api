@@ -1,5 +1,5 @@
-Flask
-Flask-JWT
-Flask-RESTful
-Flask-SQLAlchemy
-uwsgi
+Flask==1.1.2
+Flask-JWT==0.3.2
+Flask-RESTful==0.3.8
+Flask-SQLAlchemy==2.4.4
+uWSGI==2.0.19.1
